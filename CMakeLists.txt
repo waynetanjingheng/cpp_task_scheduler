@@ -3,5 +3,15 @@ project(task_scheduler)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(task_scheduler main.cpp
-        include/TaskScheduler.hpp)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+set(SOURCES
+        include/TaskScheduler.hpp
+        include/FIFOTaskScheduler.hpp
+        src/main.cpp
+        src/TaskScheduler.cpp
+        src/FIFOTaskScheduler.cpp
+)
+
+add_executable(task_scheduler ${SOURCES}
+)

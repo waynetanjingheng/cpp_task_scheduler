@@ -6,42 +6,19 @@
 
 class TaskScheduler {
 public:
-    explicit TaskScheduler(size_t numWorkerThreads) : _stop(false), _tasksInExecutionCount(0) {
-        // spawn threads in the pool and execute tasks in the queue
-        for (size_t i = 0; i < numWorkerThreads(); i++) {
-            _workers.emplace_back([this]()-> void { this->executeTasksFromQueue(); });
-        }
-    };
+    explicit TaskScheduler(size_t numWorkerThreads);
 
-    virtual ~TaskScheduler() {
-        _stop = true;
+    virtual ~TaskScheduler();
 
-        _condition.notify_all();
+    virtual void enqueueTask(std::function<void()> &task);
 
-        for (std::thread &worker: _workers) {
-            worker.join();
-        }
-    }; // ensure graceful exit by joining all worker threads
+    // virtual void waitForAllTasksToComplete();
 
+    size_t getTasksInExecutionCount() const;
 
-    virtual void enqueueTask(std::function<void()> &task) { {
-            std::lock_guard<std::mutex> lock(_taskQueueMutex);
-            _tasks.push(std::move(task));
-        }
-        _condition.notify_one();
-    }; // default implementation using basic FIFO
+    size_t getTasksInQueueCount() const;
 
-    virtual void waitForAllTasksToComplete();
-
-    size_t getTasksInExecutionCount() const {
-        return _tasksInExecutionCount.load();
-    }
-
-    size_t getTasksInQueueCount() const {
-        return _tasks.size();
-    }
-
-private:
+protected:
     std::vector<std::thread> _workers; // worker thread pool
     std::queue<std::function<void()> > _tasks;
     std::mutex _taskQueueMutex;
@@ -51,15 +28,9 @@ private:
 
     virtual void executeTasksFromQueue() = 0;
 
-    virtual std::function<void()> &getNextTaskInQueue() {
-        std::function<void()> &task = _tasks.front();
-        _tasks.pop();
-        return task;
-    }
+    virtual std::function<void()> &getNextTaskInQueue();
 
-    bool isTaskQueueEmpty() const {
-        return _tasks.empty();
-    }
+    bool isTaskQueueEmpty() const;
 };
 
 

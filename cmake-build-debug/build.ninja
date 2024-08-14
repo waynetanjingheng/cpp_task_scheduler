@@ -49,11 +49,26 @@ cmake_ninja_workdir = /Users/wayne/src/CLion/task_scheduler/cmake-build-debug/
 
 build cmake_object_order_depends_target_task_scheduler: phony || CMakeFiles/task_scheduler.dir
 
-build CMakeFiles/task_scheduler.dir/main.cpp.o: CXX_COMPILER__task_scheduler_unscanned_Debug /Users/wayne/src/CLion/task_scheduler/main.cpp || cmake_object_order_depends_target_task_scheduler
-  DEP_FILE = CMakeFiles/task_scheduler.dir/main.cpp.o.d
+build CMakeFiles/task_scheduler.dir/src/main.cpp.o: CXX_COMPILER__task_scheduler_unscanned_Debug /Users/wayne/src/CLion/task_scheduler/src/main.cpp || cmake_object_order_depends_target_task_scheduler
+  DEP_FILE = CMakeFiles/task_scheduler.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/wayne/src/CLion/task_scheduler/include
   OBJECT_DIR = CMakeFiles/task_scheduler.dir
-  OBJECT_FILE_DIR = CMakeFiles/task_scheduler.dir
+  OBJECT_FILE_DIR = CMakeFiles/task_scheduler.dir/src
+
+build CMakeFiles/task_scheduler.dir/src/TaskScheduler.cpp.o: CXX_COMPILER__task_scheduler_unscanned_Debug /Users/wayne/src/CLion/task_scheduler/src/TaskScheduler.cpp || cmake_object_order_depends_target_task_scheduler
+  DEP_FILE = CMakeFiles/task_scheduler.dir/src/TaskScheduler.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/wayne/src/CLion/task_scheduler/include
+  OBJECT_DIR = CMakeFiles/task_scheduler.dir
+  OBJECT_FILE_DIR = CMakeFiles/task_scheduler.dir/src
+
+build CMakeFiles/task_scheduler.dir/src/FIFOTaskScheduler.cpp.o: CXX_COMPILER__task_scheduler_unscanned_Debug /Users/wayne/src/CLion/task_scheduler/src/FIFOTaskScheduler.cpp || cmake_object_order_depends_target_task_scheduler
+  DEP_FILE = CMakeFiles/task_scheduler.dir/src/FIFOTaskScheduler.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/wayne/src/CLion/task_scheduler/include
+  OBJECT_DIR = CMakeFiles/task_scheduler.dir
+  OBJECT_FILE_DIR = CMakeFiles/task_scheduler.dir/src
 
 
 # =============================================================================
@@ -63,7 +78,7 @@ build CMakeFiles/task_scheduler.dir/main.cpp.o: CXX_COMPILER__task_scheduler_uns
 #############################################
 # Link the executable task_scheduler
 
-build task_scheduler: CXX_EXECUTABLE_LINKER__task_scheduler_Debug CMakeFiles/task_scheduler.dir/main.cpp.o
+build task_scheduler: CXX_EXECUTABLE_LINKER__task_scheduler_Debug CMakeFiles/task_scheduler.dir/src/main.cpp.o CMakeFiles/task_scheduler.dir/src/TaskScheduler.cpp.o CMakeFiles/task_scheduler.dir/src/FIFOTaskScheduler.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
   OBJECT_DIR = CMakeFiles/task_scheduler.dir
   POST_BUILD = :
