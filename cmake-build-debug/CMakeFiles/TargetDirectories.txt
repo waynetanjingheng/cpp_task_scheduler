@@ -1,3 +1,0 @@
-/Users/wayne/src/CLion/task_scheduler/cmake-build-debug/CMakeFiles/task_scheduler.dir
-/Users/wayne/src/CLion/task_scheduler/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/wayne/src/CLion/task_scheduler/cmake-build-debug/CMakeFiles/rebuild_cache.dir
