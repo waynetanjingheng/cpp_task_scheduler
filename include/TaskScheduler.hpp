@@ -28,7 +28,7 @@ protected:
 
     virtual void executeTasksFromQueue() = 0;
 
-    virtual std::function<void()> &getNextTaskInQueue();
+    virtual std::function<void()> getNextTaskInQueue();
 
     bool isTaskQueueEmpty() const;
 };

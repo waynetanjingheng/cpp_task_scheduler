@@ -36,8 +36,8 @@ size_t TaskScheduler::getTasksInQueueCount() const {
     return _tasks.size();
 }
 
-std::function<void()> &TaskScheduler::getNextTaskInQueue() {
-    std::function<void()> &&task = std::move(_tasks.front());
+std::function<void()> TaskScheduler::getNextTaskInQueue() {
+    std::function<void()> task = std::move(_tasks.front());
     _tasks.pop();
     return task;
 }
