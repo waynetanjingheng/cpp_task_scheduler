@@ -11,6 +11,8 @@ set(SOURCES
         src/main.cpp
         src/TaskScheduler.cpp
         src/FIFOTaskScheduler.cpp
+        tests/MockTasks.hpp
+        tests/MockTasks.cpp
 )
 
 add_executable(task_scheduler ${SOURCES}
