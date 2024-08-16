@@ -3,6 +3,7 @@
 //
 
 #include "MockTasks.hpp"
+#include "MutexDefinitions.hpp"
 
 #include <iostream>
 #include <chrono>
@@ -13,11 +14,10 @@
 
 namespace MockTasks {
     void mockTaskWithRandomSleepDuration(const int taskId) {
-        static std::mutex outputStreamMutex;
         std::random_device rd; // source for seeding
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dist(1, 10);
-        int sleepDuration = dist(gen); {
+        const int sleepDuration = dist(gen); {
             std::lock_guard<std::mutex> lock(outputStreamMutex);
             std::cout << "Sleeping Task " << taskId << " started, will take " << sleepDuration << " seconds." <<
                     std::endl;
@@ -29,13 +29,13 @@ namespace MockTasks {
         }
     }
 
-    void mockTaskWithComputation(const int taskId) {
-        static std::mutex outputStreamMutex; {
+    void mockTaskWithComputation(const int taskId) { {
             std::lock_guard<std::mutex> lock(outputStreamMutex);
             std::cout << "Compute Task " << taskId << " started some intense computation." << std::endl;
         }
-        int sum = 0, i = 0, bound = static_cast<int>(std::pow(10, 9));
-        for (; i < bound; i++) {
+        int sum = 0;
+        const int bound = static_cast<int>(std::pow(10, 9));
+        for (int i = 0; i < bound; i++) {
             sum += i;
         } {
             std::lock_guard<std::mutex> lock(outputStreamMutex);
@@ -43,8 +43,7 @@ namespace MockTasks {
         }
     }
 
-    void mockTaskWithContrivedError(const int taskId) {
-        static std::mutex outputStreamMutex; {
+    void mockTaskWithContrivedError(const int taskId) { {
             std::lock_guard<std::mutex> lock(outputStreamMutex);
             std::cout << "Potentially erroneous Task " << taskId << " started, might encounter an error." << std::endl;
         }
@@ -67,8 +66,7 @@ namespace MockTasks {
         }
     }
 
-    void mockTaskQuick(const int taskId) {
-        static std::mutex outputStreamMutex; {
+    void mockTaskQuick(const int taskId) { {
             std::lock_guard<std::mutex> lock(outputStreamMutex);
             std::cout << "Quick Task " << taskId << " started quick execution." << std::endl;
         }
