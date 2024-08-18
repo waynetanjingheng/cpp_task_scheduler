@@ -3,50 +3,40 @@
 //
 
 #include "MockTasks.hpp"
-#include "MutexDefinitions.hpp"
 
-#include <iostream>
 #include <chrono>
 #include <thread>
 #include <mutex>
 #include <random>
+#include "utils/Logger.hpp"
 
+const auto LOG = Logger::getLogger();
 
 namespace MockTasks {
     void mockTaskWithRandomSleepDuration(const int taskId) {
         std::random_device rd; // source for seeding
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dist(1, 10);
-        const int sleepDuration = dist(gen); {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Sleeping Task " << taskId << " started, will take " << sleepDuration << " seconds." <<
-                    std::endl;
-        }
+        const int sleepDuration = dist(gen);
+        LOG->info("Sleeping Task: {}  started, will take {} seconds.", taskId, sleepDuration);
 
-        std::this_thread::sleep_for(std::chrono::seconds(sleepDuration)); {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Sleeping Task " << taskId << " completed. Bye!" << std::endl;
-        }
+        std::this_thread::sleep_for(std::chrono::seconds(sleepDuration));
+        LOG->info("Sleeping Task: {} completed. Bye!", taskId);
     }
 
     void mockTaskWithComputation(const int taskId) { {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Compute Task " << taskId << " started some intense computation." << std::endl;
+            LOG->info("Computation Task: {} started some intense computation.", taskId);
         }
         int sum = 0;
         const int bound = static_cast<int>(std::pow(10, 9));
         for (int i = 0; i < bound; i++) {
             sum += i;
-        } {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Compute Task " << taskId << " completed computation with result: " << sum << std::endl;
         }
+        LOG->info("Computation Task: {} completed computation with result: {}", taskId, sum);
     }
 
-    void mockTaskWithContrivedError(const int taskId) { {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Potentially erroneous Task " << taskId << " started, might encounter an error." << std::endl;
-        }
+    void mockTaskWithContrivedError(const int taskId) {
+        LOG->info("Potentially erroneous Task: {} started, might encounter an error.", taskId);
 
         try {
             if (taskId % 2 == 0) {
@@ -54,26 +44,16 @@ namespace MockTasks {
             }
             std::this_thread::sleep_for(std::chrono::seconds(3));
         } catch (const std::exception &e) {
-            {
-                std::lock_guard<std::mutex> lock(outputStreamMutex);
-                std::cout << "Potentially erroneous Task " << taskId << " encountered an error: " << e.what() <<
-                        std::endl;
-            }
+            LOG->error("Potentially erroneous Task: {} encountered an error: {}", taskId, e.what());
             return;
-        } {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Potentially erroneous Task " << taskId << " completed successfully. Yay!" << std::endl;
         }
+        LOG->info("Potentially erroneous Task: {} completed successfully. Yay!", taskId);
     }
 
-    void mockTaskQuick(const int taskId) { {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Quick Task " << taskId << " started quick execution." << std::endl;
-        }
+    void mockTaskQuick(const int taskId) {
+        LOG->info("Quick Task: {} started quick execution.", taskId);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); {
-            std::lock_guard<std::mutex> lock(outputStreamMutex);
-            std::cout << "Quick Task " << taskId << " completed quick execution." << std::endl;
-        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        LOG->info("Quick Task: {} completed quick execution.", taskId);
     }
 }
