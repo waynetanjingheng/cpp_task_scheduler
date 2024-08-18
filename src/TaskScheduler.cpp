@@ -3,9 +3,9 @@
 //
 
 #include "TaskScheduler.hpp"
-#include "MutexDefinitions.hpp"
+#include "utils/Logger.hpp"
 
-#include<iostream>
+const auto LOG = Logger::getLogger();
 
 TaskScheduler::TaskScheduler(const size_t numWorkerThreads) : _numWorkerThreads(numWorkerThreads), _stop(false),
                                                               _tasksInExecutionCount(0), _initialized(false) {
@@ -24,8 +24,7 @@ TaskScheduler::~TaskScheduler() {
 void TaskScheduler::enqueueTask(const int taskId, std::function<void()> &task) { {
         std::lock_guard<std::mutex> taskQueueLock(_taskQueueMutex);
         _tasks.emplace(taskId, std::move(task));
-        std::lock_guard<std::mutex> outputStreamLock(outputStreamMutex);
-        std::cout << "Task with id: " << taskId << " enqueued to Task Queue." << std::endl;
+        LOG->info("Task with id: {} enqueued to Task Queue.", taskId);
     }
     _condition.notify_one();
 } // default implementation using basic FIFO
@@ -74,10 +73,8 @@ void TaskScheduler::executeTasksFromQueue() {
 
 std::function<void()> TaskScheduler::getNextTaskInQueue() {
     auto [taskId, task] = std::move(_tasks.front());
-    _tasks.pop(); {
-        std::lock_guard<std::mutex> lock(outputStreamMutex);
-        std::cout << "Task with id: " << taskId << " popped from the Task Queue." << std::endl;
-    }
+    _tasks.pop();
+    LOG->info("Task with id: {} popped from the Task Queue.", taskId);
     return task;
 }
 

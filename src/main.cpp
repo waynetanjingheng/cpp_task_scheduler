@@ -1,11 +1,13 @@
-#include <iostream>
-
 #include "TaskScheduler.hpp"
 #include "../tests/MockTasks.hpp"
+#include "utils/Logger.hpp"
 
 using Task = std::function<void()>;
 
 int main() {
+    const auto LOG = Logger::getLogger();
+    LOG->info("Starting Program...");
+
     TaskScheduler taskScheduler(4);
 
     int task1Id = 1;
