@@ -2,10 +2,10 @@
 // Created by Wayne Tan on 15/8/24.
 //
 
-#ifndef MOCKTASKS_HPP
-#define MOCKTASKS_HPP
+#ifndef MOCKTASKFUNCTION_HPP
+#define MOCKTASKFUNCTION_HPP
 
-namespace MockTasks {
+namespace MockTaskFunction {
     void mockTaskWithRandomSleepDuration(int taskId);
 
     void mockTaskWithComputation(int taskId);
@@ -15,4 +15,4 @@ namespace MockTasks {
     void mockTaskQuick(int taskId);
 }
 
-#endif //MOCKTASKS_HPP
+#endif //MOCKTASKFUNCTION_HPP

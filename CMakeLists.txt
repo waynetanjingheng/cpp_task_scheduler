@@ -18,7 +18,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/tests/includ
 set(SOURCES
         src/main.cpp
         src/TaskScheduler.cpp
-        tests/MockTasks.cpp
+        tests/MockTaskFunction.cpp
         src/utils/Logger.cpp
 )
 

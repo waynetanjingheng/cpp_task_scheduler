@@ -1,8 +1,7 @@
-#include "TaskScheduler.hpp"
-#include "MockTasks.hpp"
+#include "scheduler/TaskScheduler.hpp"
+#include "MockTaskFunction.hpp"
 #include "utils/Logger.hpp"
-
-using Task = std::function<void()>;
+#include "tasks/Task.hpp"
 
 int main() {
     const auto LOG = Logger::getLogger();
@@ -15,15 +14,15 @@ int main() {
     int task3Id = 3;
     int task4Id = 4;
 
-    Task task1 = [task1Id]()-> void { MockTasks::mockTaskWithRandomSleepDuration(task1Id); };
-    Task task2 = [task2Id]()-> void { MockTasks::mockTaskWithComputation(task2Id); };
-    Task task3 = [task3Id]()-> void { MockTasks::mockTaskWithContrivedError(task3Id); };
-    Task task4 = [task4Id]()-> void { MockTasks::mockTaskQuick(task4Id); };
+    Task task1([task1Id]()-> void { MockTaskFunction::mockTaskWithRandomSleepDuration(task1Id); }, task1Id);
+    Task task2([task2Id]()-> void { MockTaskFunction::mockTaskWithComputation(task2Id); }, task2Id);
+    Task task3([task3Id]()-> void { MockTaskFunction::mockTaskWithContrivedError(task3Id); }, task3Id);
+    Task task4([task4Id]()-> void { MockTaskFunction::mockTaskQuick(task4Id); }, task4Id);
 
-    taskScheduler.enqueueTask(task1Id, task1);
-    taskScheduler.enqueueTask(task2Id, task2);
-    taskScheduler.enqueueTask(task3Id, task3);
-    taskScheduler.enqueueTask(task4Id, task4);
+    taskScheduler.enqueueTask(task1);
+    taskScheduler.enqueueTask(task2);
+    taskScheduler.enqueueTask(task3);
+    taskScheduler.enqueueTask(task4);
 
     taskScheduler.initialize();
     taskScheduler.start();

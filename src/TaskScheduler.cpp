@@ -2,8 +2,9 @@
 // Created by Wayne Tan on 14/8/24.
 //
 
-#include "TaskScheduler.hpp"
+#include "scheduler/TaskScheduler.hpp"
 #include "utils/Logger.hpp"
+#include "tasks/Task.hpp"
 
 const auto LOG = Logger::getLogger();
 
@@ -21,10 +22,10 @@ TaskScheduler::~TaskScheduler() {
     }
 } // ensure graceful exit by joining all worker threads
 
-void TaskScheduler::enqueueTask(const int taskId, std::function<void()> &task) { {
+void TaskScheduler::enqueueTask(Task &task) { {
         std::lock_guard<std::mutex> taskQueueLock(_taskQueueMutex);
-        _tasks.emplace(taskId, std::move(task));
-        LOG->info("Task with id: {} enqueued to Task Queue.", taskId);
+        _tasks.emplace(std::move(task));
+        LOG->info("Task with id: {} enqueued to Task Queue.", task._taskId);
     }
     _condition.notify_one();
 } // default implementation using basic FIFO
@@ -58,24 +59,24 @@ size_t TaskScheduler::getTasksInQueueCount() const {
 // Default to a basic FIFO implementation
 void TaskScheduler::executeTasksFromQueue() {
     while (true) {
-        std::function<void()> task; {
+        std::unique_ptr<Task> taskPtr; {
             std::unique_lock<std::mutex> lock(_taskQueueMutex);
             _condition.wait(lock, [this]()-> bool { return _stop || !isTaskQueueEmpty(); });
             // thread should wake if `stop` is true (scheduler shutting down),
             // or there is a task to pop from the queue.
             if (_stop && isTaskQueueEmpty()) return;
-            task = getNextTaskInQueue();
+            taskPtr = std::make_unique<Task>(getNextTaskInQueue());
         }
-        task();
+        taskPtr->execute();
     }
 }
 
 
-std::function<void()> TaskScheduler::getNextTaskInQueue() {
-    auto [taskId, task] = std::move(_tasks.front());
+Task &&TaskScheduler::getNextTaskInQueue() {
+    Task &&task = std::move(_tasks.front());
     _tasks.pop();
-    LOG->info("Task with id: {} popped from the Task Queue.", taskId);
-    return task;
+    LOG->info("Task with id: {} popped from the Task Queue.", task._taskId);
+    return std::move(task);
 }
 
 bool TaskScheduler::isTaskQueueEmpty() const {

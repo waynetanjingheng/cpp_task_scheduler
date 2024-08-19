@@ -1,8 +1,10 @@
 #ifndef TASKSCHEDULER_HPP
 #define TASKSCHEDULER_HPP
+
 #include <queue>
 #include <thread>
 #include <vector>
+#include "tasks/Task.hpp"
 
 class TaskScheduler {
 public:
@@ -10,7 +12,7 @@ public:
 
     virtual ~TaskScheduler();
 
-    virtual void enqueueTask(int taskId, std::function<void()> &task);
+    virtual void enqueueTask(Task &task);
 
     void initialize();
 
@@ -25,7 +27,7 @@ public:
 protected:
     size_t _numWorkerThreads;
     std::vector<std::thread> _workers; // worker thread pool
-    std::queue<std::pair<int, std::function<void()> > > _tasks;
+    std::queue<Task> _tasks;
     std::mutex _taskQueueMutex;
     std::condition_variable _condition;
     std::atomic<bool> _stop; // flag to stop all worker threads
@@ -36,7 +38,7 @@ protected:
 
     virtual void executeTasksFromQueue();
 
-    virtual std::function<void()> getNextTaskInQueue();
+    virtual Task &&getNextTaskInQueue();
 
     bool isTaskQueueEmpty() const;
 };

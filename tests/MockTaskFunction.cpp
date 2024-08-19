@@ -2,7 +2,7 @@
 // Created by Wayne Tan on 15/8/24.
 //
 
-#include "MockTasks.hpp"
+#include "MockTaskFunction.hpp"
 
 #include <chrono>
 #include <thread>
@@ -12,7 +12,7 @@
 
 const auto LOG = Logger::getLogger();
 
-namespace MockTasks {
+namespace MockTaskFunction {
     void mockTaskWithRandomSleepDuration(const int taskId) {
         std::random_device rd; // source for seeding
         std::mt19937 gen(rd());
@@ -27,7 +27,7 @@ namespace MockTasks {
     void mockTaskWithComputation(const int taskId) { {
             LOG->info("Computation Task: {} started some intense computation.", taskId);
         }
-        int sum = 0;
+        uint32_t sum = 0;
         const int bound = static_cast<int>(std::pow(10, 9));
         for (int i = 0; i < bound; i++) {
             sum += i;
