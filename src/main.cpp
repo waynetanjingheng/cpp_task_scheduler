@@ -1,5 +1,5 @@
 #include "TaskScheduler.hpp"
-#include "../tests/MockTasks.hpp"
+#include "MockTasks.hpp"
 #include "utils/Logger.hpp"
 
 using Task = std::function<void()>;

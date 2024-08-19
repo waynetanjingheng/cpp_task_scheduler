@@ -13,12 +13,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(spdlog)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/tests/include)
 
 set(SOURCES
         src/main.cpp
         src/TaskScheduler.cpp
-        tests/MockTasks.hpp
         tests/MockTasks.cpp
         src/utils/Logger.cpp
 )
