@@ -5,17 +5,20 @@
 #ifndef PRIORITYTASK_HPP
 #define PRIORITYTASK_HPP
 
+#include "tasks/Task.hpp"
 #include<functional>
 
-struct PriorityTask {
-    std::function<void()> _task;
-    int _priority; // Higher value means higher priority
+struct PriorityTask : Task {
+    int priority; // Higher value means higher priority
 
-    PriorityTask(std::function<void()> &&task, const int priority) : _task(std::move(task)), _priority(priority) {
+    PriorityTask(std::function<void()> &&task, const int taskId, const int priority) : Task(std::move(task), taskId),
+        priority(priority) {
     }
 
+    ~PriorityTask() override = default;
+
     bool operator<(const PriorityTask &other) const {
-        return _priority < other._priority;
+        return priority < other.priority;
     }
 };
 

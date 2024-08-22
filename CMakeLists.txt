@@ -17,9 +17,10 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/tests/includ
 
 set(SOURCES
         src/main.cpp
-        src/TaskScheduler.cpp
+        src/scheduler/TaskScheduler.cpp
         tests/MockTaskFunction.cpp
         src/utils/Logger.cpp
+        src/scheduler/PriorityTaskScheduler.cpp
 )
 
 add_executable(task_scheduler ${SOURCES}

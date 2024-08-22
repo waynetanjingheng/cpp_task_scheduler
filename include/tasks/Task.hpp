@@ -9,14 +9,19 @@
 
 // This struct defines the base struct of all Tasks in the program.
 struct Task {
-    std::function<void()> _task;
-    const int _taskId;
+    std::function<void()> task;
+    int taskId;
 
-    Task(std::function<void()> &&task, const int taskId) : _task(std::move(task)), _taskId(taskId) {
-    };
+    Task(std::function<void()> task, const int taskId) : task(std::move(task)), taskId(taskId) {
+    }
+
+    virtual ~Task() = default;
 
     void execute() const {
-        _task();
+        if (!task) {
+            throw std::invalid_argument("Task function cannot be null!");
+        }
+        task();
     }
 };
 
