@@ -1,19 +1,20 @@
 #include "scheduler/TaskScheduler.hpp"
-#include "scheduler/PriorityTaskScheduler.hpp"
+#include "factory/TaskSchedulerFactory.hpp"
 #include "tasks/PriorityTask.hpp"
 #include "MockTaskFunction.hpp"
 #include "utils/Logger.hpp"
 #include "tasks/Task.hpp"
+#include "view/UserOptions.hpp"
 
 int main() {
     const auto LOG = Logger::getLogger();
     LOG->info("Starting Program...");
 
-    const std::unique_ptr<TaskScheduler> taskScheduler = std::make_unique<PriorityTaskScheduler>(4);
-    // const auto taskScheduler = std::make_unique<TaskScheduler>(4);
+    UserOptions::displayOptionsAndAcceptInput();
 
-    // TODO: Add factory to return the corresponding scheduler type depending on the algorithm required.
-    // Also refactor all these into a loop or something cleaner.
+    const std::unique_ptr<TaskScheduler> taskScheduler = TaskSchedulerFactory::getScheduler();
+
+    // TODO: refactor all these into a loop or something cleaner.
 
     int task1Id = 1;
     int task2Id = 2;

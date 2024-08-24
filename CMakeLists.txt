@@ -21,6 +21,8 @@ set(SOURCES
         tests/MockTaskFunction.cpp
         src/utils/Logger.cpp
         src/scheduler/PriorityTaskScheduler.cpp
+        src/factory/TaskSchedulerFactory.cpp
+        src/view/UserOptions.cpp
 )
 
 add_executable(task_scheduler ${SOURCES}
