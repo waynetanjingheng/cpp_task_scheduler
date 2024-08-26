@@ -11,11 +11,11 @@ const std::unique_ptr<TaskScheduler> TaskSchedulerFactory::getScheduler() {
     const int numWorkerThreads = UserOptions::getNumWorkerThreads();
 
     switch (type) {
-        case 0:
-            return std::make_unique<TaskScheduler>(numWorkerThreads);
         case 1:
+            return std::make_unique<TaskScheduler>(numWorkerThreads);
+        case 2:
             return std::make_unique<PriorityTaskScheduler>(numWorkerThreads);
         default:
-            throw std::invalid_argument("Invalid scheduler type!");
+            throw std::invalid_argument("Invalid type!");
     }
 }

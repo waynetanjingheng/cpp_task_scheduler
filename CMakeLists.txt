@@ -13,6 +13,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(spdlog)
 
+add_definitions(-DPROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/tests/include)
 
 set(SOURCES
@@ -23,6 +25,8 @@ set(SOURCES
         src/scheduler/PriorityTaskScheduler.cpp
         src/factory/TaskSchedulerFactory.cpp
         src/view/UserOptions.cpp
+        src/factory/TaskFactory.cpp
+        src/utils/FileReader.cpp
 )
 
 add_executable(task_scheduler ${SOURCES}

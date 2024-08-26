@@ -13,13 +13,18 @@ public:
 
     static const int getNumWorkerThreads();
 
+    static const int getNumTasks();
+
 private:
     static int type;
     static int numWorkerThreads;
+    static int numTasks;
 
     static void setType(int type);
 
     static void setNumWorkerThreads(int numWorkerThreads);
+
+    static void setNumTasks(int numTasks);
 };
 
 
