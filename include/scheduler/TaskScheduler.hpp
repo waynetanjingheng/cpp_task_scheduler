@@ -4,6 +4,10 @@
 #include <queue>
 #include <thread>
 #include <vector>
+#include <memory>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
 #include "tasks/Task.hpp"
 
 class TaskScheduler {
@@ -43,7 +47,7 @@ protected:
     std::condition_variable _condition;
     std::atomic<bool> _stop; // flag to stop all worker threads
     std::atomic<size_t> _tasksInExecutionCount;
-    std::atomic_bool _initialized;
+    std::atomic<bool> _initialized;
     std::mutex _initializationMutex;
     std::condition_variable _initializationCondition;
 

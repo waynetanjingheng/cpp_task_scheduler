@@ -4,6 +4,8 @@
 
 #ifndef PRIORITYTASKSCHEDULER_HPP
 #define PRIORITYTASKSCHEDULER_HPP
+
+#include <memory>
 #include "TaskScheduler.hpp"
 #include "tasks/PriorityTask.hpp"
 

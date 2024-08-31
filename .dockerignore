@@ -1,0 +1,32 @@
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore dependencies
+node_modules
+vendor
+
+# Ignore build directories
+build/
+dist/
+bin/
+obj/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Ignore environment variables and config files
+.env
+.env.local
+
+# Ignore IDE/editor config files
+.vscode/
+.idea/
+*.iml
+
+.build/
+cmake-build-debug/
+cmake-build-release/
+cmake-out/

@@ -2,6 +2,7 @@
 // Created by Wayne Tan on 26/8/24.
 //
 
+#include <memory>
 #include "factory/TaskFactory.hpp"
 #include <tasks/PriorityTask.hpp>
 #include "view/UserOptions.hpp"
