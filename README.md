@@ -2,7 +2,6 @@
 
 ## Overview
 
----
 This is my simple implementation of a task scheduler that supports some of the commonly-used scheduling algorithms used
 by operating systems.
 It is a simple application that takes in as input the number of worker threads and the number of tasks to execute.
@@ -41,14 +40,11 @@ base `TaskScheduler` and `Task` types.
 
 ## Prerequisites
 
----
 Before running this project, ensure you have the following installed:
 
 - [Docker](https://docs.docker.com/get-docker/)
 
 ## Getting Started
-
----
 
 ### Cloning the Repository
 
