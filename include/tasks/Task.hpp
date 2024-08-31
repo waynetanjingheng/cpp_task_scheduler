@@ -6,6 +6,7 @@
 #define TASK_HPP
 
 #include<functional>
+#include<stdexcept>
 
 // This struct defines the base struct of all Tasks in the program.
 struct Task {

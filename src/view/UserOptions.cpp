@@ -39,7 +39,6 @@ void UserOptions::setNumTasks(const int numTasks) {
 void UserOptions::displayOptionsAndAcceptInput() {
     const std::string NUM_SCHEDULING_ALGORITHMS_KEY = "NUM_SCHEDULING_ALGORITHMS";
     const int NUM_SCHEDULING_ALGORITHMS = FileReader::getConfigValue(NUM_SCHEDULING_ALGORITHMS_KEY);
-    std::cout << NUM_SCHEDULING_ALGORITHMS << std::endl;
 
     std::cout << "Welcome! Please select a scheduling algorithm:" << std::endl;
     std::cout << "=====================" << std::endl;

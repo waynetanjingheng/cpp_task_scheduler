@@ -6,10 +6,11 @@
 #define TASKFACTORY_HPP
 
 #include "tasks/Task.hpp"
+#include <memory>
 
 class TaskFactory {
 public:
-    static const std::vector<std::shared_ptr<Task> > getAllTasks();
+    static const std::vector<std::shared_ptr<Task>> getAllTasks();
 
 private:
     static const std::shared_ptr<Task> getTask(int taskId, std::function<void(int tId)> mockFunction);
