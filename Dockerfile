@@ -1,16 +1,17 @@
-FROM ubuntu:22.04
+# STAGE 1: BUILD
+
+FROM alpine:latest AS builder
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache \
     cmake \
+    make \
     clang \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    git
 
-ENV CXX=clang++
-
-RUN clang++ --version
+#ENV CXX=clang++
 
 WORKDIR /app
 
@@ -19,16 +20,20 @@ COPY . .
 # Create a build directory and run CMake to configure the project
 RUN rm -rf build \
     && mkdir -p build \
-    && ls -l \
     && cd build \
-    && ls -l \
     && cmake .. \
-    && cd ..
+    && cd .. \
+    && cmake --build ./build --target task_scheduler -j 6
 
-# Run CMake to configure the project and generate makefiles
-RUN cmake --build ./build --target task_scheduler -j 6
+# STAGE 2: RUN APPLICATION
+FROM alpine:latest
 
-## Build the project
-#RUN make
+RUN apk add --no-cache \
+    libstdc++
 
-CMD ["./build/task_scheduler"]
+WORKDIR /app
+
+COPY --from=builder /app/build/task_scheduler .
+COPY --from=builder /app/config.txt .
+
+CMD ["./task_scheduler"]
