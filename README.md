@@ -52,7 +52,6 @@ First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/waynetanjingheng/cpp_task_scheduler.git
-cd <project-root>
 ```
 
 ### Build the Docker Image
